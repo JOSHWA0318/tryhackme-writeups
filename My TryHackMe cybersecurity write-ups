@@ -25,8 +25,9 @@ The attack chain involved:
 ##  Reconnaissance
 
 I started with a network scan to identify open ports and services:
+```
 nmap -sC -sV <target_ip>
-
+```
 Findings:
 Port 22 → OpenSSH 7.2p2
 Port 80 → Apache 2.4.18 (Ubuntu)
