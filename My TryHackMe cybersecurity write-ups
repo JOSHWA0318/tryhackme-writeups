@@ -1,6 +1,6 @@
-# 🛡️ TryHackMe - LazyAdmin Write-up
+#  TryHackMe - LazyAdmin Write-up
 
-## 📌 Overview
+##  Overview
 
 This write-up documents the methodology used to compromise the **LazyAdmin** machine on TryHackMe.  
 The attack chain involved:
@@ -12,7 +12,7 @@ The attack chain involved:
 
 ---
 
-## 🛠️ Tools Used
+##  Tools Used
 
 - Nmap  
 - Gobuster  
@@ -22,7 +22,7 @@ The attack chain involved:
 
 ---
 
-## 🔍 Reconnaissance
+##  Reconnaissance
 
 I started with a network scan to identify open ports and services:
 nmap -sC -sV <target_ip>
@@ -33,7 +33,7 @@ Port 80 → Apache 2.4.18 (Ubuntu)
 
 Since HTTP was available, I focused on web enumeration.
 
-🚪 Enumeration
+Enumeration
 
 Navigating to the web root (/) displayed the default Apache page, indicating hidden content.
 
@@ -49,7 +49,7 @@ Important Directories:
 /inc
 /as
 
-🔐 Credential Discovery
+ Credential Discovery
 
 Inside /inc, I found:
 
@@ -63,7 +63,7 @@ I cracked the hash using CrackStation:
 manager : Password123
 
 
-💥 Exploitation
+ Exploitation
 
 Accessed the admin panel:
 
@@ -71,7 +71,7 @@ Accessed the admin panel:
 
 Using the credentials, I gained access to the SweetRice dashboard.
 
-⚡ Remote Code Execution
+ Remote Code Execution
 
 SweetRice 1.5.1 is vulnerable to Authenticated PHP Code Injection.
 
@@ -91,7 +91,7 @@ Result:
 Gained shell as www-data
 
 
-🖥️ Shell Stabilization
+ Shell Stabilization
 
 To improve shell usability:
 
@@ -101,14 +101,14 @@ stty raw -echo; fg
 reset
 export TERM=xterm
 export SHELL=bash
-🏁 User Flag
+ User Flag
 
 Successfully retrieved:
 
 user.txt
 
 
-🔑 Privilege Escalation
+ Privilege Escalation
 
 Checked sudo permissions:
 
@@ -121,7 +121,7 @@ The script executed:
 /etc/copy.sh
 Vulnerability:
 www-data had write permission on /etc/copy.sh
-🚀 Root Exploit
+ Root Exploit
 
 Modified /etc/copy.sh:
 
@@ -134,10 +134,10 @@ Result:
 Root shell obtained
 🏁 Root Flag
 root.txt
-🎯 Flags
+ Flags
 User Flag: THM{63e5bce9271952aad1113b6f1ac28a07}
 Root Flag: THM{6637f41d0177b6f37cb20d775124699f}
-📚 Key Learnings
+Key Learnings
 Importance of thorough directory enumeration
 Risks of exposed backup files
 Weak hashing (MD5) can be easily cracked
