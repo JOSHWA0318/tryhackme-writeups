@@ -33,7 +33,7 @@ Port 80 → Apache 2.4.18 (Ubuntu)
 
 Since HTTP was available, I focused on web enumeration.
 
-Enumeration
+## Enumeration
 
 Navigating to the web root (/) displayed the default Apache page, indicating hidden content.
 
@@ -49,7 +49,7 @@ Important Directories:
 /inc
 /as
 
-Credential Discovery
+## Credential Discovery
 
 Inside /inc, I found:
 
@@ -63,7 +63,7 @@ I cracked the hash using CrackStation:
 manager : Password123
 
 
-Exploitation
+## Exploitation
 
 Accessed the admin panel:
 
@@ -71,11 +71,11 @@ Accessed the admin panel:
 
 Using the credentials, I gained access to the SweetRice dashboard.
 
-Remote Code Execution
+## Remote Code Execution
 
 SweetRice 1.5.1 is vulnerable to Authenticated PHP Code Injection.
 
-Steps:
+## Steps:
 Navigate to Ads section
 Create a new Ad
 Insert reverse shell:
@@ -91,7 +91,7 @@ Result:
 Gained shell as www-data
 
 
-Shell Stabilization
+## Shell Stabilization
 
 To improve shell usability:
 
@@ -108,7 +108,7 @@ Successfully retrieved:
 user.txt
 
 
-Privilege Escalation
+## Privilege Escalation
 
 Checked sudo permissions:
 
@@ -132,9 +132,9 @@ Then executed:
 sudo /usr/bin/perl /path/to/backup.pl
 Result:
 Root shell obtained
-🏁 Root Flag
+Root Flag
 root.txt
- Flags
+Flags
 User Flag: THM{63e5bce9271952aad1113b6f1ac28a07}
 Root Flag: THM{6637f41d0177b6f37cb20d775124699f}
 
