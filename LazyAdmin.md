@@ -1,5 +1,5 @@
 #  TryHackMe - LazyAdmin Write-up
-
+https://tryhackme.com/room/lazyadmin
 ##  Overview
 
 This write-up documents the methodology used to compromise the **LazyAdmin** machine on TryHackMe.  
